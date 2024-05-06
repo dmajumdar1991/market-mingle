@@ -12,8 +12,16 @@ const Navbar = () => {
 
   const { toggleMode, mode } = context;
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const logout = () => {
+    localStorage.clear("user");
+
+    window.location.href = "/login";
+  };
+
   return (
-    <div className="bg-white sticky top-0 z-50">
+    <div className="sticky top-0 z-50 bg-white">
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
@@ -64,41 +72,54 @@ const Navbar = () => {
                   >
                     All Products
                   </Link>
-                  <div className="flow-root">
-                    <Link
-                      to={"/order"}
-                      style={{ color: mode === "dark" ? "white" : "" }}
-                      className="-m-2 block p-2 font-medium text-gray-900"
-                    >
-                      Order
-                    </Link>
-                  </div>
+
+                  {user ? (
+                    <div className="flow-root">
+                      <Link
+                        to={"/order"}
+                        style={{ color: mode === "dark" ? "white" : "" }}
+                        className="-m-2 block p-2 font-medium text-gray-900"
+                      >
+                        Order
+                      </Link>
+                    </div>
+                  ) : (
+                    ""
+                  )}
 
                   <div className="flow-root">
-                    <Link
-                      to={"/dashboard"}
-                      className="-m-2 block p-2 font-medium text-gray-900"
-                      style={{ color: mode === "dark" ? "white" : "" }}
-                    >
-                      admin
-                    </Link>
+                    {user?.user?.email === import.meta.env.VITE_ADMIN_EMAIL ? (
+                      <Link
+                        to={"/dashboard"}
+                        className="-m-2 block p-2 font-medium text-gray-900"
+                        style={{ color: mode === "dark" ? "white" : "" }}
+                      >
+                        Admin
+                      </Link>
+                    ) : (
+                      ""
+                    )}
                   </div>
-
-                  <div className="flow-root">
-                    <a
-                      className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer"
-                      style={{ color: mode === "dark" ? "white" : "" }}
-                    >
-                      Logout
-                    </a>
-                  </div>
+                  {user ? (
+                    <div className="flow-root">
+                      <a
+                        className="-m-2 block cursor-pointer p-2 font-medium text-gray-900"
+                        style={{ color: mode === "dark" ? "white" : "" }}
+                        onClick={logout}
+                      >
+                        Logout
+                      </a>
+                    </div>
+                  ) : (
+                    ""
+                  )}
                   <div className="flow-root">
                     <Link
                       to={"/"}
-                      className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer"
+                      className="-m-2 block cursor-pointer p-2 font-medium text-gray-900"
                     >
                       <img
-                        className="inline-block w-10 h-10 rounded-full"
+                        className="inline-block h-10 w-10 rounded-full"
                         src="/profile-pic.jpg"
                         alt="Dan_Abromov"
                       />{" "}
@@ -141,7 +162,7 @@ const Navbar = () => {
 
         <nav
           aria-label="Top"
-          className="bg-gray-100 px-4 sm:px-6 lg:px-8 shadow-xl "
+          className="bg-gray-100 px-4 shadow-xl sm:px-6 lg:px-8 "
           style={{
             backgroundColor: mode === "dark" ? "#282c34" : "",
             color: mode === "dark" ? "white" : "",
@@ -165,7 +186,7 @@ const Navbar = () => {
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="w-6 h-6"
+                  className="h-6 w-6"
                 >
                   <path
                     strokeLinecap="round"
@@ -180,7 +201,7 @@ const Navbar = () => {
                 <Link to={"/"} className="flex">
                   <div className="flex ">
                     <h1
-                      className=" text-2xl font-bold text-black  px-2 py-1 rounded"
+                      className=" rounded px-2 py-1  text-2xl font-bold text-black"
                       style={{ color: mode === "dark" ? "white" : "" }}
                     >
                       Market Mingle
@@ -198,27 +219,42 @@ const Navbar = () => {
                   >
                     All Products
                   </Link>
-                  <Link
-                    to={"/order"}
-                    className="text-sm font-medium text-gray-700 "
-                    style={{ color: mode === "dark" ? "white" : "" }}
-                  >
-                    Order
-                  </Link>
-                  <Link
-                    to={"/dashboard"}
-                    className="text-sm font-medium text-gray-700 "
-                    style={{ color: mode === "dark" ? "white" : "" }}
-                  >
-                    Admin
-                  </Link>
 
-                  <a
-                    className="text-sm font-medium text-gray-700 cursor-pointer  "
-                    style={{ color: mode === "dark" ? "white" : "" }}
-                  >
-                    Logout
-                  </a>
+                  {user ? (
+                    <Link
+                      to={"/order"}
+                      className="text-sm font-medium text-gray-700 "
+                      style={{ color: mode === "dark" ? "white" : "" }}
+                    >
+                      Order
+                    </Link>
+                  ) : (
+                    ""
+                  )}
+
+                  {user?.user?.email === import.meta.env.VITE_ADMIN_EMAIL ? (
+                    <Link
+                      to={"/dashboard"}
+                      className="text-sm font-medium text-gray-700 "
+                      style={{ color: mode === "dark" ? "white" : "" }}
+                    >
+                      Admin
+                    </Link>
+                  ) : (
+                    ""
+                  )}
+
+                  {user ? (
+                    <a
+                      className="cursor-pointer text-sm font-medium text-gray-700  "
+                      style={{ color: mode === "dark" ? "white" : "" }}
+                      onClick={logout}
+                    >
+                      Logout
+                    </a>
+                  ) : (
+                    ""
+                  )}
                 </div>
 
                 <div className="hidden lg:ml-8 lg:flex">
@@ -239,7 +275,7 @@ const Navbar = () => {
                 <div className="hidden lg:ml-8 lg:flex">
                   <Link to={"/"} className="flex items-center text-gray-700 ">
                     <img
-                      className="inline-block w-10 h-10 rounded-full"
+                      className="inline-block h-10 w-10 rounded-full"
                       src="/profile-pic.jpg"
                       alt="Dan_Abromov"
                     />
@@ -273,7 +309,7 @@ const Navbar = () => {
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
                       stroke="currentColor"
-                      className="w-6 h-6"
+                      className="h-6 w-6"
                     >
                       <path
                         strokeLinecap="round"
@@ -283,7 +319,7 @@ const Navbar = () => {
                     </svg>
 
                     <span
-                      className="ml-2 text-sm font-medium text-gray-700 group-"
+                      className="group- ml-2 text-sm font-medium text-gray-700"
                       style={{ color: mode === "dark" ? "white" : "" }}
                     >
                       0
