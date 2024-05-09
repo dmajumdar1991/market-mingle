@@ -50,7 +50,7 @@ export default function Modal() {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-gray-50  p-2 text-left align-middle shadow-xl transition-all">
-                  <section className="">
+                  <section>
                     <div className="mx-auto flex flex-col items-center justify-center py-8  lg:py-0">
                       <div className="w-full  rounded-lg sm:max-w-md md:mt-0 xl:p-0 ">
                         <div className="space-y-4 p-6 sm:p-8 md:space-y-6">

@@ -9,7 +9,7 @@ const AddProduct = () => {
   return (
     <div className="flex h-screen items-center justify-center">
       <div className=" rounded-xl bg-gray-800 px-10 py-10 ">
-        <div className="">
+        <div>
           <h1 className="mb-4 text-center text-xl font-bold text-white">
             Add Product
           </h1>

@@ -121,7 +121,7 @@ const DashboardTab = () => {
                       const { title, imgUrl, price, category, date } = item;
 
                       return (
-                        <tbody className="" key={index}>
+                        <tbody key={index}>
                           <tr
                             className="border-b bg-gray-50  dark:border-gray-700"
                             style={{

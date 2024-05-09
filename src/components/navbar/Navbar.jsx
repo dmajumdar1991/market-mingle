@@ -5,6 +5,7 @@ import { BsFillCloudSunFill } from "react-icons/bs";
 import { FiSun } from "react-icons/fi";
 import MyContext from "../../context/data/MyContext";
 import { RxCross2 } from "react-icons/rx";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -19,6 +20,8 @@ const Navbar = () => {
 
     window.location.href = "/login";
   };
+
+  const cartItems = useSelector((state) => state.cart);
 
   return (
     <div className="sticky top-0 z-50 bg-white">
@@ -94,7 +97,7 @@ const Navbar = () => {
                         className="-m-2 block p-2 font-medium text-gray-900"
                         style={{ color: mode === "dark" ? "white" : "" }}
                       >
-                        Admin
+                        Dashboard (Admin)
                       </Link>
                     ) : (
                       ""
@@ -168,7 +171,7 @@ const Navbar = () => {
             color: mode === "dark" ? "white" : "",
           }}
         >
-          <div className="">
+          <div>
             <div className="flex h-16 items-center">
               <button
                 type="button"
@@ -238,7 +241,7 @@ const Navbar = () => {
                       className="text-sm font-medium text-gray-700 "
                       style={{ color: mode === "dark" ? "white" : "" }}
                     >
-                      Admin
+                      Dashboard (Admin)
                     </Link>
                   ) : (
                     ""
@@ -284,10 +287,10 @@ const Navbar = () => {
 
                 {/* Search */}
                 <div className="flex lg:ml-6">
-                  <button className="" onClick={toggleMode}>
+                  <button onClick={toggleMode}>
                     {/* <MdDarkMode size={35} style={{ color: mode === 'dark' ? 'white' : '' }} /> */}
                     {mode === "light" ? (
-                      <FiSun className="" size={30} />
+                      <FiSun size={30} />
                     ) : "dark" ? (
                       <BsFillCloudSunFill size={30} />
                     ) : (
@@ -322,7 +325,7 @@ const Navbar = () => {
                       className="group- ml-2 text-sm font-medium text-gray-700"
                       style={{ color: mode === "dark" ? "white" : "" }}
                     >
-                      0
+                      ({cartItems.length})
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
                   </Link>
