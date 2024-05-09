@@ -5,6 +5,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDocs,
   onSnapshot,
   orderBy,
   query,
@@ -107,6 +108,8 @@ const MyState = (props) => {
 
   useEffect(() => {
     getProductData();
+    getOrderData();
+    getUserData();
   }, []);
 
   // update product section
@@ -149,6 +152,64 @@ const MyState = (props) => {
     }
   };
 
+  // get order section
+
+  const [order, setOrder] = useState([]);
+
+  const getOrderData = async () => {
+    setLoading(true);
+
+    try {
+      const result = await getDocs(collection(fireDB, "orders"));
+      const ordersArray = [];
+
+      result.forEach((doc) => {
+        ordersArray.push(doc.data());
+        setLoading(false);
+      });
+      setOrder(ordersArray);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  // get user section
+
+  const [users, setUsers] = useState([]);
+
+  const getUserData = async () => {
+    setLoading(true);
+
+    try {
+      const result = await getDocs(collection(fireDB, "users"));
+      const usersArray = [];
+
+      result.forEach((doc) => {
+        usersArray.push(doc.data());
+        setLoading(false);
+      });
+
+      setUsers(usersArray);
+
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  // filter section
+
+  const [searchKey, setSearchKey] = useState("");
+  const [filterType, setFilterType] = useState("");
+  const [filterPrice, setFilterPrice] = useState("");
+
+  // shipping charge
+
+  const shippingCharge = 1000;
+
   return (
     <MyContext.Provider
       value={{
@@ -163,6 +224,15 @@ const MyState = (props) => {
         editHandle,
         updateProduct,
         deleteProduct,
+        order,
+        users,
+        searchKey,
+        setSearchKey,
+        filterType,
+        setFilterType,
+        filterPrice,
+        setFilterPrice,
+        shippingCharge,
       }}
     >
       {props.children}

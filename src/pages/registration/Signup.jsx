@@ -30,7 +30,7 @@ const Signup = () => {
         name: name,
         uid: users.user.uid,
         email: users.user.email,
-        time: Timestamp.now(),
+        date: new Date().toLocaleString(),
       };
 
       const userRef = collection(fireDB, "users");
@@ -99,7 +99,7 @@ const Signup = () => {
         </div>
         <div>
           <input
-            type="text"
+            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             name="pass"

@@ -11,7 +11,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const context = useContext(MyContext);
 
-  const { toggleMode, mode } = context;
+  const { toggleMode, mode, shippingCharge } = context;
 
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -68,15 +68,8 @@ const Navbar = () => {
                   </button>
                 </div>
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                  <Link
-                    to={"/allproducts"}
-                    className="text-sm font-medium text-gray-900 "
-                    style={{ color: mode === "dark" ? "white" : "" }}
-                  >
-                    All Products
-                  </Link>
-
-                  {user ? (
+                  {user &&
+                  user?.user?.email !== import.meta.env.VITE_ADMIN_EMAIL ? (
                     <div className="flow-root">
                       <Link
                         to={"/order"}
@@ -117,34 +110,26 @@ const Navbar = () => {
                     ""
                   )}
                   <div className="flow-root">
-                    <Link
-                      to={"/"}
-                      className="-m-2 block cursor-pointer p-2 font-medium text-gray-900"
-                    >
-                      <img
-                        className="inline-block h-10 w-10 rounded-full"
-                        src="/profile-pic.jpg"
-                        alt="Dan_Abromov"
-                      />{" "}
-                    </Link>
+                    {user ? (
+                      <Link
+                        to={"/"}
+                        className="-m-2 block cursor-pointer p-2 font-medium text-gray-900"
+                      >
+                        <img
+                          className="inline-block h-10 w-10 rounded-full"
+                          src="/profile-pic.jpg"
+                          alt="Dan_Abromov"
+                        />{" "}
+                      </Link>
+                    ) : (
+                      <Link
+                        to={"/login"}
+                        className="-m-2 block cursor-pointer p-2 font-medium text-gray-900"
+                      >
+                        Login
+                      </Link>
+                    )}
                   </div>
-                </div>
-
-                <div className="border-t border-gray-200 px-4 py-6">
-                  <a href="#" className="-m-2 flex items-center p-2">
-                    <img
-                      src="https://ecommerce-sk.vercel.app/img/indiaflag.png"
-                      alt=""
-                      className="block h-auto w-5 flex-shrink-0"
-                    />
-                    <span
-                      className="ml-3 block text-base font-medium text-gray-900"
-                      style={{ color: mode === "dark" ? "white" : "" }}
-                    >
-                      INDIA
-                    </span>
-                    <span className="sr-only">, change currency</span>
-                  </a>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
@@ -160,7 +145,7 @@ const Navbar = () => {
             color: mode === "dark" ? "white" : "",
           }}
         >
-          Get free delivery on orders over ₹300
+          Get free delivery on orders over ₹{shippingCharge}
         </p>
 
         <nav
@@ -215,15 +200,8 @@ const Navbar = () => {
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  <Link
-                    to={"/allproducts"}
-                    className="text-sm font-medium text-gray-700 "
-                    style={{ color: mode === "dark" ? "white" : "" }}
-                  >
-                    All Products
-                  </Link>
-
-                  {user ? (
+                  {user &&
+                  user?.user?.email != import.meta.env.VITE_ADMIN_EMAIL ? (
                     <Link
                       to={"/order"}
                       className="text-sm font-medium text-gray-700 "
@@ -261,28 +239,27 @@ const Navbar = () => {
                 </div>
 
                 <div className="hidden lg:ml-8 lg:flex">
-                  <a href="#" className="flex items-center text-gray-700 ">
-                    <img
-                      src="https://ecommerce-sk.vercel.app/img/indiaflag.png"
-                      alt=""
-                      className="block h-auto w-5 flex-shrink-0"
-                    />
-                    <span
-                      className="ml-3 block text-sm font-medium"
-                      style={{ color: mode === "dark" ? "white" : "" }}
+                  {user ? (
+                    <Link to={"/"} className="flex items-center text-gray-700 ">
+                      <img
+                        className="inline-block h-10 w-10 rounded-full"
+                        src="/profile-pic.jpg"
+                        alt="Dan_Abromov"
+                      />
+                    </Link>
+                  ) : (
+                    <Link
+                      to={"/login"}
+                      className="flex items-center text-gray-700 "
                     >
-                      INDIA
-                    </span>
-                  </a>
-                </div>
-                <div className="hidden lg:ml-8 lg:flex">
-                  <Link to={"/"} className="flex items-center text-gray-700 ">
-                    <img
-                      className="inline-block h-10 w-10 rounded-full"
-                      src="/profile-pic.jpg"
-                      alt="Dan_Abromov"
-                    />
-                  </Link>
+                      <span
+                        className="font-bold"
+                        style={{ color: mode === "dark" ? "white" : "" }}
+                      >
+                        Login
+                      </span>
+                    </Link>
+                  )}
                 </div>
 
                 {/* Search */}
@@ -300,36 +277,69 @@ const Navbar = () => {
                 </div>
 
                 {/* Cart */}
-                <div className="ml-4 flow-root lg:ml-6">
-                  <Link
-                    to={"/cart"}
-                    className="group -m-2 flex items-center p-2"
-                    style={{ color: mode === "dark" ? "white" : "" }}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="h-6 w-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
-                      />
-                    </svg>
-
-                    <span
-                      className="group- ml-2 text-sm font-medium text-gray-700"
+                {user ? (
+                  <div className="ml-4 flow-root lg:ml-6">
+                    <Link
+                      to={"/cart"}
+                      className="group -m-2 flex items-center p-2"
                       style={{ color: mode === "dark" ? "white" : "" }}
                     >
-                      ({cartItems.length})
-                    </span>
-                    <span className="sr-only">items in cart, view bag</span>
-                  </Link>
-                </div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="h-6 w-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                        />
+                      </svg>
+
+                      <span
+                        className="group- ml-2 text-sm font-medium text-gray-700"
+                        style={{ color: mode === "dark" ? "white" : "" }}
+                      >
+                        ({cartItems.length})
+                      </span>
+                      <span className="sr-only">items in cart, view bag</span>
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="ml-4 flow-root lg:ml-6">
+                    <Link
+                      to={"/Login"}
+                      className="group -m-2 flex items-center p-2"
+                      style={{ color: mode === "dark" ? "white" : "" }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="h-6 w-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                        />
+                      </svg>
+
+                      <span
+                        className="group- ml-2 text-sm font-medium text-gray-700"
+                        style={{ color: mode === "dark" ? "white" : "" }}
+                      >
+                        ({cartItems.length})
+                      </span>
+                      <span className="sr-only">items in cart, view bag</span>
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           </div>

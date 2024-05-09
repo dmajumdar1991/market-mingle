@@ -1,7 +1,17 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 
-export default function Modal() {
+export default function Modal({
+  name,
+  address,
+  pincode,
+  phoneNumber,
+  setName,
+  setAddress,
+  setPincode,
+  setPhoneNumber,
+  buyNow,
+}) {
   let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
@@ -63,7 +73,9 @@ export default function Modal() {
                                 Enter Full Name
                               </label>
                               <input
-                                type="name"
+                                type="text"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
                                 name="name"
                                 id="name"
                                 className=" focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-100 p-2.5 text-gray-900 outline-0 sm:text-sm"
@@ -79,6 +91,8 @@ export default function Modal() {
                               </label>
                               <input
                                 type="text"
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
                                 name="address"
                                 id="address"
                                 className=" focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-100 p-2.5 text-gray-900 outline-0 sm:text-sm"
@@ -94,6 +108,8 @@ export default function Modal() {
                               </label>
                               <input
                                 type="text"
+                                value={pincode}
+                                onChange={(e) => setPincode(e.target.value)}
                                 name="pincode"
                                 id="pincode"
                                 className=" focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-100 p-2.5 text-gray-900 outline-0 sm:text-sm"
@@ -109,6 +125,8 @@ export default function Modal() {
                               </label>
                               <input
                                 type="text"
+                                value={phoneNumber}
+                                onChange={(e) => setPhoneNumber(e.target.value)}
                                 name="mobileNumber"
                                 id="mobileNumber"
                                 className=" focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-100 p-2.5 text-gray-900 outline-0 sm:text-sm"
@@ -117,7 +135,10 @@ export default function Modal() {
                             </div>
                           </form>
                           <button
-                            onClick={closeModal}
+                            onClick={() => {
+                              buyNow();
+                              closeModal();
+                            }}
                             type="button"
                             className="w-full rounded-lg bg-violet-600 px-5 py-2.5  text-sm font-medium text-white outline-0 hover:bg-violet-800 focus:outline-none "
                           >
